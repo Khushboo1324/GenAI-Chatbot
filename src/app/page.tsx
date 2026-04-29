@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Loader2, User, Sparkles } from 'lucide-react';
+import { Send, Loader2, User, Sparkles, Plus, Star, Circle, Triangle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { personas, Persona } from '@/config/personas';
 
@@ -80,28 +80,38 @@ export default function ChatApp() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-slate-neutral text-deep-navy font-manrope">
+    <div className="flex flex-col h-screen bg-surface text-midnight font-vietnam relative overflow-hidden">
+      
+      {/* Joy Sprinkles (Background) */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <Star className="absolute top-20 left-[10%] text-hot-pink/10 w-12 h-12 animate-pulse" />
+        <Circle className="absolute top-40 right-[15%] text-electric-purple/10 w-8 h-8 animate-bounce" style={{ animationDuration: '3s' }} />
+        <Triangle className="absolute bottom-40 left-[20%] text-bright-yellow/10 w-10 h-10 animate-spin" style={{ animationDuration: '8s' }} />
+        <div className="absolute top-[60%] right-[5%] w-24 h-24 rounded-full bg-hot-pink/5 blur-3xl animate-pulse" />
+        <div className="absolute bottom-[10%] left-[5%] w-32 h-32 rounded-full bg-electric-purple/5 blur-3xl animate-pulse" />
+      </div>
+
       {/* Header & Tabs */}
-      <header className="bg-white border-b border-gray-200 shadow-sm z-10 sticky top-0 bg-white/80 backdrop-blur-md">
-        <div className="max-w-4xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <h1 className="text-2xl font-bold flex items-center gap-2 text-deep-navy font-noto-serif tracking-tight">
-            <Sparkles className="w-5 h-5 text-academic-gold" strokeWidth={1.5} />
-            PersonaChat
+      <header className="glass-morphism z-10 sticky top-0 mx-4 mt-4 rounded-2xl shadow-xl">
+        <div className="max-w-4xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <h1 className="text-3xl font-extrabold flex items-center gap-2 text-hot-pink font-jakarta tracking-tighter italic">
+            <Sparkles className="w-8 h-8 text-bright-yellow fill-bright-yellow" strokeWidth={1.5} />
+            JOYCHAT
           </h1>
           
-          <div className="flex bg-slate-neutral p-1 rounded overflow-x-auto max-w-full no-scrollbar border border-gray-200">
+          <div className="flex bg-surface-dim p-2 rounded-full overflow-x-auto max-w-full no-scrollbar border-2 border-white/50 shadow-inner">
             {personas.map((persona) => (
               <button
                 key={persona.id}
                 onClick={() => handlePersonaSwitch(persona)}
-                className={`flex items-center gap-2 px-4 py-2 rounded text-sm font-semibold transition-all whitespace-nowrap tracking-wide uppercase ${
+                className={`flex items-center gap-2 px-6 py-2 rounded-full text-sm font-bold transition-all whitespace-nowrap tracking-wide uppercase ${
                   activePersona.id === persona.id
-                    ? 'bg-white text-deep-navy shadow-sm border border-gray-200'
-                    : 'text-charcoal hover:text-deep-navy hover:bg-white/50 border border-transparent'
+                    ? 'joy-gradient text-white shadow-lg scale-105 neon-glow-pink'
+                    : 'text-midnight hover:bg-white/40 border border-transparent'
                 }`}
               >
-                <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] text-white font-bold ${
-                  activePersona.id === persona.id ? 'bg-deep-navy' : 'bg-charcoal'
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] text-white font-bold ${
+                  activePersona.id === persona.id ? 'bg-white/20 backdrop-blur-md' : 'bg-midnight/20'
                 }`}>
                   {persona.avatar}
                 </div>
@@ -113,57 +123,61 @@ export default function ChatApp() {
       </header>
 
       {/* Main Chat Area */}
-      <main className="flex-1 overflow-y-auto w-full max-w-4xl mx-auto p-4 sm:p-6 md:p-8 flex flex-col gap-8">
+      <main className="flex-1 overflow-y-auto w-full max-w-4xl mx-auto p-4 sm:p-6 md:p-8 flex flex-col gap-8 z-1 relative">
         
         {/* Welcome state */}
         {messages.length === 0 && (
-          <div className="flex-1 flex flex-col items-center justify-center text-center max-w-lg mx-auto space-y-8 mt-10">
-            <div className="w-24 h-24 rounded-full bg-deep-navy flex items-center justify-center text-white text-3xl font-bold shadow-lg border-4 border-white">
+          <div className="flex-1 flex flex-col items-center justify-center text-center max-w-lg mx-auto space-y-10 mt-10 bubbly-tilt">
+            <div className="w-32 h-32 rounded-full joy-lava-lamp flex items-center justify-center text-white text-4xl font-bold shadow-2xl neon-glow-purple border-8 border-white animate-bounce" style={{ animationDuration: '4s' }}>
               {activePersona.avatar}
             </div>
-            <div>
-              <h2 className="text-3xl font-bold text-deep-navy font-noto-serif mb-3">Consult {activePersona.name}</h2>
-              <p className="text-charcoal text-lg leading-relaxed">{activePersona.description}</p>
+            <div className="bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow-2xl border-4 border-hot-pink">
+              <h2 className="text-4xl font-extrabold text-midnight font-jakarta mb-4 tracking-tight">Meet {activePersona.name}!</h2>
+              <p className="text-midnight/80 text-xl font-medium leading-relaxed">{activePersona.description}</p>
             </div>
             
-            <div className="w-full space-y-3 mt-6">
-              <p className="text-xs text-charcoal uppercase tracking-widest font-semibold mb-4">Suggested Topics</p>
-              {SUGGESTIONS[activePersona.id]?.map((suggestion, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => sendMessage(suggestion)}
-                  className="w-full text-left p-4 rounded border border-gray-200 bg-white hover:border-academic-gold hover:shadow-sm transition-all text-deep-navy"
-                >
-                  {suggestion}
-                </button>
-              ))}
+            <div className="w-full space-y-4">
+              <p className="text-sm text-hot-pink uppercase tracking-[0.2em] font-black italic">Let's Play!</p>
+              <div className="grid grid-cols-1 gap-3">
+                {SUGGESTIONS[activePersona.id]?.map((suggestion, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => sendMessage(suggestion)}
+                    className="w-full text-left p-5 rounded-2xl border-4 border-transparent bg-bright-yellow text-midnight font-bold shadow-lg hover:border-hot-pink hover:scale-[1.02] transition-all transform hover:-rotate-1"
+                  >
+                    🚀 {suggestion}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         )}
 
         {/* Messages */}
-        <div className="space-y-8 pb-4">
+        <div className="space-y-10 pb-4">
           {messages.map((msg, idx) => (
             <div
               key={idx}
               className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <div className={`flex gap-4 max-w-[90%] sm:max-w-[80%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+              <div className={`flex gap-5 max-w-[90%] sm:max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                 
-                <div className={`w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center border-2 border-white shadow-sm ${
+                <div className={`w-12 h-12 rounded-full flex-shrink-0 flex items-center justify-center border-4 border-white shadow-xl ${
                   msg.role === 'user' 
-                  ? 'bg-charcoal text-white' 
-                  : 'bg-deep-navy text-white font-bold text-sm'
+                  ? 'bg-midnight text-white' 
+                  : 'joy-lava-lamp text-white font-bold'
                 }`}>
-                  {msg.role === 'user' ? <User className="w-5 h-5" strokeWidth={1.5} /> : activePersona.avatar}
+                  {msg.role === 'user' ? <User className="w-6 h-6" /> : activePersona.avatar}
                 </div>
 
-                <div className={`p-5 rounded shadow-sm relative ${
+                <div className={`p-6 rounded-[2.5rem] shadow-2xl relative border-4 ${
                   msg.role === 'user'
-                    ? 'bg-light-blue text-deep-navy border border-gray-200'
-                    : 'bg-white text-deep-navy border border-gray-200 border-l-4 border-l-academic-gold'
-                }`} style={msg.role === 'model' ? { boxShadow: '0 4px 12px rgba(15, 23, 42, 0.04)' } : {}}>
-                  <div className="prose prose-sm md:prose-base prose-slate max-w-none font-manrope leading-relaxed prose-headings:font-noto-serif prose-headings:text-deep-navy prose-a:text-academic-gold">
+                    ? 'joy-gradient text-white border-white/30 rounded-tr-none'
+                    : 'bg-white text-midnight border-electric-purple rounded-tl-none neon-glow-purple'
+                }`}>
+                  <div className={`prose prose-sm md:prose-base max-w-none font-vietnam leading-relaxed font-medium ${
+                    msg.role === 'user' ? 'prose-invert prose-headings:text-white' : 'prose-slate prose-headings:font-jakarta prose-headings:text-hot-pink'
+                  }`}>
                     <ReactMarkdown>{msg.content}</ReactMarkdown>
                   </div>
                 </div>
@@ -174,14 +188,14 @@ export default function ChatApp() {
           {/* Typing Indicator */}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="flex gap-4 max-w-[90%] sm:max-w-[80%] flex-row">
-                <div className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center bg-deep-navy text-white font-bold text-sm border-2 border-white shadow-sm">
+              <div className="flex gap-5 max-w-[90%] sm:max-w-[85%] flex-row">
+                <div className="w-12 h-12 rounded-full flex-shrink-0 flex items-center justify-center joy-lava-lamp text-white font-bold border-4 border-white shadow-xl">
                   {activePersona.avatar}
                 </div>
-                <div className="p-5 rounded bg-white border border-gray-200 border-l-4 border-l-academic-gold shadow-sm flex items-center gap-2" style={{ boxShadow: '0 4px 12px rgba(15, 23, 42, 0.04)' }}>
-                  <div className="w-2 h-2 rounded-full bg-charcoal animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <div className="w-2 h-2 rounded-full bg-charcoal animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <div className="w-2 h-2 rounded-full bg-charcoal animate-bounce" style={{ animationDelay: '300ms' }} />
+                <div className="p-6 rounded-[2.5rem] bg-white border-4 border-electric-purple shadow-xl flex items-center gap-3 neon-glow-purple">
+                  <div className="w-3 h-3 rounded-full bg-hot-pink animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <div className="w-3 h-3 rounded-full bg-electric-purple animate-bounce" style={{ animationDelay: '200ms' }} />
+                  <div className="w-3 h-3 rounded-full bg-bright-yellow animate-bounce" style={{ animationDelay: '400ms' }} />
                 </div>
               </div>
             </div>
@@ -189,9 +203,9 @@ export default function ChatApp() {
 
           {/* Error Message */}
           {error && (
-            <div className="flex justify-center my-6">
-              <div className="bg-red-50 text-red-700 px-6 py-4 rounded border border-red-200 text-sm max-w-md text-center font-semibold">
-                {error}
+            <div className="flex justify-center my-10">
+              <div className="bg-red-100 text-red-600 px-8 py-5 rounded-3xl border-4 border-red-200 text-lg font-black italic shadow-2xl animate-shake">
+                OH NO! {error}
               </div>
             </div>
           )}
@@ -200,28 +214,33 @@ export default function ChatApp() {
         </div>
       </main>
 
+      {/* Floating Action Button */}
+      <button className="fixed bottom-32 right-8 w-16 h-16 rounded-full joy-gradient text-white shadow-2xl neon-glow-pink flex items-center justify-center hover:scale-110 active:scale-95 transition-transform z-20 border-4 border-white">
+        <Plus className="w-8 h-8" />
+      </button>
+
       {/* Input Area */}
-      <footer className="bg-white/80 backdrop-blur-md border-t border-gray-200 p-4 sm:p-6">
+      <footer className="glass-morphism p-4 sm:p-8 mx-4 mb-4 rounded-3xl border-4 border-white/50 shadow-2xl">
         <div className="max-w-4xl mx-auto relative">
-          <form onSubmit={handleSubmit} className="flex gap-3">
+          <form onSubmit={handleSubmit} className="flex gap-4">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder={`Ask ${activePersona.name} a question...`}
-              className="flex-1 rounded border border-gray-300 bg-white px-5 py-4 focus:outline-none focus:border-deep-navy focus:ring-1 focus:ring-deep-navy transition-all text-deep-navy placeholder-gray-400 shadow-sm font-manrope"
+              placeholder={`Ping ${activePersona.name}...`}
+              className="flex-1 rounded-full border-4 border-electric-purple bg-white/90 px-8 py-5 focus:outline-none focus:border-hot-pink focus:ring-4 focus:ring-hot-pink/20 transition-all text-midnight font-bold placeholder-midnight/30 shadow-inner text-xl"
               disabled={isLoading}
             />
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
-              className="rounded w-14 flex items-center justify-center bg-deep-navy hover:bg-charcoal text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-deep-navy flex-shrink-0"
+              className="rounded-full w-20 flex items-center justify-center joy-gradient text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-xl hover:scale-105 active:scale-90 neon-glow-pink flex-shrink-0 border-4 border-white"
             >
-              {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Send className="w-6 h-6 ml-1" strokeWidth={1.5} />}
+              {isLoading ? <Loader2 className="w-8 h-8 animate-spin" /> : <Send className="w-8 h-8" />}
             </button>
           </form>
-          <div className="text-center mt-3">
-            <p className="text-xs text-charcoal">AI systems may provide inaccurate information. Please verify independently.</p>
+          <div className="text-center mt-4">
+            <p className="text-[10px] text-hot-pink font-black uppercase tracking-[0.3em]">Joy Engine Powered by Gemini 🤖</p>
           </div>
         </div>
       </footer>

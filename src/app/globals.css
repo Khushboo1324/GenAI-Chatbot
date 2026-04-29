@@ -2,34 +2,72 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: #F8FAFC;
-  --foreground: #0F172A;
+  --background: #fff7fe;
+  --foreground: #280e40;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-noto-serif: var(--font-noto-serif);
-  --font-manrope: var(--font-manrope);
+  --font-jakarta: var(--font-plus-jakarta);
+  --font-vietnam: var(--font-be-vietnam);
+  --font-spline: var(--font-spline-sans);
 
-  /* Academic Colors */
-  --color-deep-navy: #0F172A;
-  --color-charcoal: #334155;
-  --color-academic-gold: #B49157;
-  --color-slate-neutral: #F8FAFC;
-  --color-light-blue: #E2E8F0;
+  /* Vivid Joy Colors */
+  --color-hot-pink: #a90097;
+  --color-bright-yellow: #f3e300;
+  --color-electric-purple: #7600f8;
+  --color-midnight: #280e40;
+  --color-surface: #fff7fe;
+  --color-surface-dim: #ead0ff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #1a082a;
+    --foreground: #faecff;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-manrope), sans-serif;
+  font-family: var(--font-vietnam), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Vivid Joy Utilities */
+.neon-glow-pink {
+  box-shadow: 0 0 30px rgba(169, 0, 151, 0.4);
+}
+
+.neon-glow-purple {
+  box-shadow: 0 0 30px rgba(118, 0, 248, 0.4);
+}
+
+.joy-gradient {
+  background: linear-gradient(135deg, #a90097, #7600f8);
+}
+
+.joy-lava-lamp {
+  background: linear-gradient(135deg, #a90097, #7600f8, #f3e300);
+  background-size: 200% 200%;
+  animation: lavaLamp 10s ease infinite;
+}
+
+@keyframes lavaLamp {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.bubbly-tilt {
+  transform: rotate(-2deg);
+}
+
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(255, 255, 255, 0.4);
 }
 

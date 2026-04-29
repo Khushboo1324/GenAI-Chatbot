@@ -1,20 +1,26 @@
 import type { Metadata } from "next";
-import { Noto_Serif, Manrope } from "next/font/google";
+import { Plus_Jakarta_Sans, Be_Vietnam_Pro, Spline_Sans } from "next/font/google";
 import "./globals.css";
 
-const notoSerif = Noto_Serif({
-  variable: "--font-noto-serif",
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta",
   subsets: ["latin"],
 });
 
-const manrope = Manrope({
-  variable: "--font-manrope",
+const beVietnam = Be_Vietnam_Pro({
+  variable: "--font-be-vietnam",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+});
+
+const splineSans = Spline_Sans({
+  variable: "--font-spline-sans",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Academic PersonaChat",
-  description: "Academic Chatbot Application",
+  title: "Vivid Joy Chatbot",
+  description: "Energetic and Optimistic AI Mentorship",
 };
 
 export default function RootLayout({
@@ -25,9 +31,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${notoSerif.variable} ${manrope.variable} h-full antialiased`}
+      className={`${plusJakarta.variable} ${beVietnam.variable} ${splineSans.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-manrope">{children}</body>
+      <body className="min-h-full flex flex-col font-be-vietnam bg-surface">{children}</body>
     </html>
   );
 }
